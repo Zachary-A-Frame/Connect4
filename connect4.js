@@ -19,7 +19,6 @@ let board = new Set(); // array of rows, each row is array of cells  (board[y][x
  */
 
 const makeBoard = () => {
-  // TODO: set "board" to empty HEIGHT x WIDTH matrix array
   // let row = new Set();
   board.clear()
   for (y = 1; y <= HEIGHT; y++) {
@@ -36,7 +35,6 @@ const makeBoard = () => {
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
 const makeHtmlBoard = () => {
-  // TODO: get "htmlBoard" variable from the item in HTML w/ID of "board"
   const htmlBoard = document.querySelector("#board")
   // Create a table row in html, give it an id of column-top, and add an event listener for if players click it. This is our top row, this is how we allow players to choose their piece location.
   let top = document.createElement("tr");
@@ -78,7 +76,6 @@ const findSpotForCol = (x) => {
 /** placeInTable: update DOM to place piece into HTML table of board */
 
 const placeInTable = (y, x) => {
-  // TODO: make a div and insert into correct table cell
   const piece = document.createElement("div");
   // let yValue = 5
   if (currPlayer === 1) {
@@ -114,7 +111,6 @@ const handleClick = (evt) => {
   }
 
   // place piece in board and add to HTML table
-  // TODO: add line to update in-memory board
   const boardArr = [...board]
   boardArr[y][x] = currPlayer
   placeInTable(y, x);
@@ -156,8 +152,6 @@ const handleClick = (evt) => {
   // check for tie
   // TODO: check if all cells in board are filled; if so call, call endGame
 
-  // switch players
-  // TODO: switch currPlayer 1 <-> 2
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
@@ -180,7 +174,6 @@ const checkForWin = () => {
     );
   }
 
-  // TODO: read and understand this code. Add comments to help you.
   // Within our checkForWin() we have a for loop, which checks each row. The first loop is designating that we're checking by row.
   for (let y = 0; y < HEIGHT; y++) {
     // The second loop is going through each row itself.
