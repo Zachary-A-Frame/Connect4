@@ -19,6 +19,7 @@ let board = new Set(); // array of rows, each row is array of cells  (board[y][x
  */
 
 const makeBoard = () => {
+  // TODO: set "board" to empty HEIGHT x WIDTH matrix array
   // let row = new Set();
   board.clear()
   for (y = 1; y <= HEIGHT; y++) {
@@ -35,6 +36,7 @@ const makeBoard = () => {
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
 const makeHtmlBoard = () => {
+  // TODO: get "htmlBoard" variable from the item in HTML w/ID of "board"
   const htmlBoard = document.querySelector("#board")
   // Create a table row in html, give it an id of column-top, and add an event listener for if players click it. This is our top row, this is how we allow players to choose their piece location.
   let top = document.createElement("tr");
@@ -77,12 +79,9 @@ const findSpotForCol = (x) => {
 
 const placeInTable = (y, x) => {
   const piece = document.createElement("div");
-  // let yValue = 5
   if (currPlayer === 1) {
-    currPlayer = 2
     piece.classList.add("p1")
   } else {
-    currPlayer = 1
     piece.classList.add("p2")
   }
   piece.classList.add("piece")
@@ -114,7 +113,6 @@ const handleClick = (evt) => {
   const boardArr = [...board]
   boardArr[y][x] = currPlayer
   placeInTable(y, x);
-
   // check for win, if this function returns true the game ends.
   if (checkForWin()) {
     makeBoard()
@@ -149,6 +147,9 @@ const handleClick = (evt) => {
     return endGame(`Player ${currPlayer} won!`);
   }
 
+
+  currPlayer = currPlayer === 1 ? 2 : 1;
+
   // check for tie
   // TODO: check if all cells in board are filled; if so call, call endGame
 
@@ -164,6 +165,7 @@ const checkForWin = () => {
     const boardArr = [...board]
 
     // Uses the every() method to determine if every value within a victory condition is met.
+    // Performs simple validation to ensure no NaN, undefined, etc. Then checks to see if the value is set to the current player.
     return cells.every(
       ([y, x]) =>
         y >= 0 &&
