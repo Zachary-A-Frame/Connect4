@@ -5,8 +5,8 @@
  * board fills (tie)
  */
 
-let WIDTH = 7;
-let HEIGHT = 6;
+const WIDTH = 7;
+const HEIGHT = 6;
 
 let p1Score = 0
 let p2Score = 0
@@ -18,7 +18,7 @@ let board = new Set(); // array of rows, each row is array of cells  (board[y][x
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
 
-function makeBoard() {
+const makeBoard = () => {
   // TODO: set "board" to empty HEIGHT x WIDTH matrix array
   // let row = new Set();
   board.clear()
@@ -35,7 +35,7 @@ function makeBoard() {
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
-function makeHtmlBoard() {
+const makeHtmlBoard = () => {
   // TODO: get "htmlBoard" variable from the item in HTML w/ID of "board"
   const htmlBoard = document.querySelector("#board")
   // Create a table row in html, give it an id of column-top, and add an event listener for if players click it. This is our top row, this is how we allow players to choose their piece location.
@@ -64,7 +64,7 @@ function makeHtmlBoard() {
 
 /** findSpotForCol: given column x, return top empty y (null if filled) */
 
-function findSpotForCol(x) {
+const findSpotForCol = (x) => {
   for (y = HEIGHT - 1; y >= 0; y--) {
     // console.log(x, y)
     let boardArr = [...board]
@@ -77,7 +77,7 @@ function findSpotForCol(x) {
 
 /** placeInTable: update DOM to place piece into HTML table of board */
 
-function placeInTable(y, x) {
+const placeInTable = (y, x) => {
   // TODO: make a div and insert into correct table cell
   const piece = document.createElement("div");
   // let yValue = 5
@@ -97,15 +97,15 @@ function placeInTable(y, x) {
 
 /** endGame: announce game end */
 
-function endGame(msg) {
+const endGame = (msg) => {
   alert(msg)
 }
 
 /** handleClick: handle click of column top to play piece */
 
-function handleClick(evt) {
+const handleClick = (evt) => {
   // get x from ID of clicked cell
-  let x = +evt.target.id;
+  const x = +evt.target.id;
   // console.log(x)
   // get next spot in column (if none, ignore click)
   const y = findSpotForCol(x);
@@ -162,12 +162,12 @@ function handleClick(evt) {
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
-function checkForWin() {
-  function _win(cells) {
+const checkForWin = () => {
+  const _win = (cells) => {
     // Check four cells to see if they're all color of current player
     //  - cells: list of four (y, x) cells
     //  - returns true if all are legal coordinates & all match currPlayer
-    let boardArr = [...board]
+    const boardArr = [...board]
 
     // Uses the every() method to determine if every value within a victory condition is met.
     return cells.every(
