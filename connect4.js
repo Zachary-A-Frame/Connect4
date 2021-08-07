@@ -13,38 +13,40 @@ let p2Score = 0
 
 let currPlayer = 1; // active player: 1 or 2
 let board = new Set(); // array of rows, each row is array of cells  (board[y][x])
-// let yValue = 5;
+
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
 
 const makeBoard = () => {
-  // TODO: set "board" to empty HEIGHT x WIDTH matrix array
-  // let row = new Set();
+  // Set "board" to empty HEIGHT x WIDTH matrix array
+  // When this function is called, we want our board to be cleared.
   board.clear()
+
+  // To set up to our matrix, we use nested for loops. The first allows us to set our row, the second adds each column to it.
   for (y = 1; y <= HEIGHT; y++) {
     let row = new Set();
     for (x = 1; x <= WIDTH; x++) {
       row.add([x, y])
-      // board.add([boardWidth, boardHeight])
     }
     board.add(row)
   }
-  // console.log(board)
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
 const makeHtmlBoard = () => {
-  // TODO: get "htmlBoard" variable from the item in HTML w/ID of "board"
+  // Get "htmlBoard" variable from the item in HTML w/ID of "board"
   const htmlBoard = document.querySelector("#board")
+
   // Create a table row in html, give it an id of column-top, and add an event listener for if players click it. This is our top row, this is how we allow players to choose their piece location.
-  let top = document.createElement("tr");
+  const top = document.createElement("tr");
   top.setAttribute("id", "column-top");
   top.addEventListener("click", handleClick);
-  // This will create a data container element, or td, with an id of variable x, and  then we're appending it to the top of our htmlBoard The ID we're giving it is based on its x value.
+
+  // This will create a data container element, or td, with an id of variable x, and then we're appending it to the top of our htmlBoard. The ID we're giving it is based on its x value.
   for (let x = 0; x < WIDTH; x++) {
-    let headCell = document.createElement("td");
+    const headCell = document.createElement("td");
     headCell.setAttribute("id", x);
     top.append(headCell);
   }
@@ -65,9 +67,10 @@ const makeHtmlBoard = () => {
 /** findSpotForCol: given column x, return top empty y (null if filled) */
 
 const findSpotForCol = (x) => {
-  for (y = HEIGHT - 1; y >= 0; y--) {
-    // console.log(x, y)
-    let boardArr = [...board]
+  // We spread our set out, giving us an array to work with.
+  const boardArr = [...board]
+  // This checks to see if a spot is filled or not, returning the coordinate we want our piece to go to, given X as a parameter.
+  for (let y = HEIGHT - 1; y >= 0; y--) {
     if (!boardArr[y][x]) {
       return y;
     }
@@ -78,6 +81,7 @@ const findSpotForCol = (x) => {
 /** placeInTable: update DOM to place piece into HTML table of board */
 
 const placeInTable = (y, x) => {
+  // This will check if currPlayer value is set to 1 or 2, indicating which player it is, and adding a class of p1 or p2, as well as the piece class. This will ensure our div is filled with the right color correctly, alternating between red and blue.
   const piece = document.createElement("div");
   if (currPlayer === 1) {
     piece.classList.add("p1")
@@ -113,7 +117,7 @@ const handleClick = (evt) => {
   const boardArr = [...board]
   boardArr[y][x] = currPlayer
   placeInTable(y, x);
-  // check for win, if this function returns true the game ends.
+  // check for win, if this function returns true the game restarts. We run our makeBoard function, which also clears the set and recreates it. Then we remove all of the p1, p2, and piece classes.
   if (checkForWin()) {
     makeBoard()
     const boardArr = document.querySelectorAll(`.piece`)
@@ -122,6 +126,7 @@ const handleClick = (evt) => {
       boardArr[i].classList.remove("p2")
       boardArr[i].classList.remove("piece")
     }
+    // This is where we control our scoreboard. After checking if there is a victory, we want to set up some values to manipulate in our scoreboard. Our scoreboard updates each time a player wins, and will hand over a crown to whichever player currently has more victories.
     let currPlayerText = document.getElementById(`p${currPlayer}score`)
     const p1 = document.getElementById(`p1score`)
     const p2 = document.getElementById(`p2score`)
@@ -147,6 +152,24 @@ const handleClick = (evt) => {
     return endGame(`Player ${currPlayer} won!`);
   }
 
+  // check for tie
+  // const boardArr = document.querySelectorAll(`.piece`)
+  // for (i = 0; i < boardArr.length; i++) {
+  //   boardArr[i].classList.remove("p1")
+  //   boardArr[i].classList.remove("p2")
+  //   boardArr[i].classList.remove("piece")
+  // }
+
+  const boardClasslist = document.querySelectorAll(`.piece`)
+  let total = 0
+  for (i = 0; i < boardClasslist.length; i++) {
+    if (boardClasslist[i].classList.contains("p2")) {
+      total++
+      if (total === 26) {
+        endGame(`Tie!`)
+      }
+    }
+  }
 
   currPlayer = currPlayer === 1 ? 2 : 1;
 
