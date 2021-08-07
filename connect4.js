@@ -165,17 +165,20 @@ const handleClick = (evt) => {
   for (i = 0; i < boardClasslist.length; i++) {
     if (boardClasslist[i].classList.contains("p2")) {
       total++
-      if (total === 26) {
+      if (total === 21) {
         endGame(`Tie!`)
+        makeBoard()
+        const boardArr = document.querySelectorAll(`.piece`)
+        for (i = 0; i < boardArr.length; i++) {
+          boardArr[i].classList.remove("p1")
+          boardArr[i].classList.remove("p2")
+          boardArr[i].classList.remove("piece")
+        }
       }
     }
   }
 
   currPlayer = currPlayer === 1 ? 2 : 1;
-
-  // check for tie
-  // TODO: check if all cells in board are filled; if so call, call endGame
-
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
